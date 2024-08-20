@@ -1,7 +1,9 @@
-import Image from "next/image";
+import SigninForm from "@/components/login/signinForm";
 
 export default function Home() {
   return (
-    <main></main>
+    <main>
+        <SigninForm/>
+    </main>
   );
 }
