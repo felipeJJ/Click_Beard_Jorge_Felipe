@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         try {
             const decoded = jwt.verify(token, secret);
-            return NextResponse.json({ isValid: true, decoded }, { status: 200 });
+            return NextResponse.json({ isValid: true, role: (decoded as any).role }, { status: 200 });
         } catch (err) {
             return NextResponse.json({ message: 'Invalid or expired token' }, { status: 401 });
         }

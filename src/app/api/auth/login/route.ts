@@ -3,21 +3,28 @@ import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-const user = {
-    id: "1",
-    email: "1",
-    password: bcrypt.hashSync("1", 8),
-};
+const users = [
+    {
+        id: "1",
+        email: "1",
+        password: bcrypt.hashSync("1", 8),
+        role: "user",
+    },
+    {
+        id: "2",
+        email: "2",
+        password: bcrypt.hashSync("2", 8),
+        role: "admin",
+    },
+];
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
         const { email, password } = body;
 
-        if (
-            email !== user.email ||
-            !bcrypt.compareSync(password, user.password)
-        ) {
+        const user = users.find((user) => user.email === email);
+        if (!user || !bcrypt.compareSync(password, user.password)) {
             throw new Error("Email ou senha inválidos");
         }
 
@@ -25,7 +32,7 @@ export async function POST(req: Request) {
             throw new Error("JWT_SECRET is not defined");
         } else {
             const token = jwt.sign(
-                { id: user.id, email: user.email },
+                { id: user.id, email: user.email, role: user.role },
                 process.env.JWT_SECRET,
                 {
                     expiresIn: "1h",
@@ -41,7 +48,7 @@ export async function POST(req: Request) {
                 { status: 200 }
             );
             response.headers.append("Set-Cookie", cookie);
-    
+
             return response;
         }
     } catch (error: unknown) {
