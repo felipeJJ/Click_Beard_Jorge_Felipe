@@ -17,7 +17,6 @@ export default function Signin() {
                 password,
             });
             if (res.status === 200) {
-                console.log("Login bem-sucedido");
             }
         } catch (error: any) {
             console.error("Falha no login", error.response.data.error);
