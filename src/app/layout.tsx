@@ -4,7 +4,6 @@ import { Saira, Saira_Stencil_One } from "next/font/google";
 import { parseCookies } from "nookies";
 import { useEffect, useState } from "react";
 import "./globals.css";
-import NavBar from "@/components/header/AdminNavBar";
 import UserNavBar from "@/components/header/UserNavBar";
 import AdminNavBar from "@/components/header/AdminNavBar";
 
@@ -64,7 +63,7 @@ export default function RootLayout({
                 {isLoggedIn && (
                     <>
                         {role === "admin" && <AdminNavBar />}
-                        {role === "user" && <UserNavBar />}
+                        {role === "client" && <UserNavBar />}
                     </>
                 )}
                 {children}
