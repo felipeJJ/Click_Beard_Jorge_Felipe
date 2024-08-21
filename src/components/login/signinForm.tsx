@@ -8,7 +8,7 @@ import axios from "axios";
 import Alert from "../alerts/Alert";
 import Succses from "../alerts/Succses";
 
-export default function Signin() {
+export default function Signin( {setIsLoggedIn}: {setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}) {
     const router = useRouter();
 
     const [email, setEmail] = useState("");
@@ -43,7 +43,8 @@ export default function Signin() {
     useEffect(() => {
         if (succses) {
             const redirectTimer = setTimeout(() => {
-                router.push("/");
+                setIsLoggedIn(true);
+                window.location.reload();
             }, 2000);
 
             return () => clearTimeout(redirectTimer);
@@ -58,7 +59,7 @@ export default function Signin() {
 
             return () => clearTimeout(errorTimer);
         }
-    }, [error, succses, router]);
+    }, [error, succses, setIsLoggedIn]);
 
     return (
         <div className="font-serif flex items-center justify-center  text-gray-700 overflow-hidden">
