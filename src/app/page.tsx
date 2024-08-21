@@ -1,30 +1,19 @@
 "use client";
 
 import SigninForm from "@/components/login/SigninForm";
-import { useEffect, useState } from "react";
-import { parseCookies } from "nookies";
+import { PageContextProvider } from "./context/pageToShow";
+import { useTokenContext } from "./context/tokenContext";
+
 
 export default function Home() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        const cookies = parseCookies();
-        const token = cookies.token;
-
-        if (token) {
-            setIsLoggedIn(true);
-        }
-        setLoading(false);
-    },[]);
-
-    if (loading) {
-        return null;
-    }
+    const { isValid } = useTokenContext();
 
     return (
         <main className="h-screen w-screen">
-            {!isLoggedIn && <SigninForm setIsLoggedIn={setIsLoggedIn} />}
+            <PageContextProvider>
+
+                {!isValid && <SigninForm/>}
+            </PageContextProvider>
         </main>
     );
 }

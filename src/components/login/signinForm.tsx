@@ -7,9 +7,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Alert from "../alerts/Alert";
 import Succses from "../alerts/Succses";
+import { useTokenContext } from "@/app/context/tokenContext";
 
-export default function Signin( {setIsLoggedIn}: {setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function Signin() {
     const router = useRouter();
+    const { setIsValid } = useTokenContext();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -43,7 +45,7 @@ export default function Signin( {setIsLoggedIn}: {setIsLoggedIn: React.Dispatch<
     useEffect(() => {
         if (succses) {
             const redirectTimer = setTimeout(() => {
-                setIsLoggedIn(true);
+                setIsValid(true);
                 window.location.reload();
             }, 2000);
 
@@ -59,7 +61,7 @@ export default function Signin( {setIsLoggedIn}: {setIsLoggedIn: React.Dispatch<
 
             return () => clearTimeout(errorTimer);
         }
-    }, [error, succses, setIsLoggedIn]);
+    }, [error, setIsValid, succses]);
 
     return (
         <div className="font-serif flex items-center justify-center  text-gray-700 overflow-hidden">
