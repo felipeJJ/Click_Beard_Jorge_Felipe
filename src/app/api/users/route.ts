@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
         const result = await query(
             "INSERT INTO users (name, email, password_hash, role) VALUES ($1, $2, $3, $4) RETURNING user_id",
-            [name, email, passwordHash, "user"]
+            [name, email, passwordHash, "client"]
         );
 
         if (result?.rowCount && result.rowCount > 0) {
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
         }
 
         const result = await query(
-            "SELECT user_id, password_hash FROM users WHERE email = $1",
+            "SELECT user_id, email, role, password_hash FROM users WHERE email = $1",
             [email]
         );
 
@@ -64,7 +64,12 @@ export async function GET(req: NextRequest) {
 
             if (isPasswordValid) {
                 return NextResponse.json(
-                    { message: "Usuário autenticado com sucesso!", userId: user.user_id },
+                    {
+                        message: "Usuário autenticado com sucesso!",
+                        userId: user.user_id,
+                        email: user.email,
+                        role: user.role,
+                    },
                     { status: 200 }
                 );
             } else {
@@ -87,4 +92,3 @@ export async function GET(req: NextRequest) {
         );
     }
 }
-

@@ -23,9 +23,7 @@ export async function POST(req: Request) {
         if (apiResponse.status !== 200) {
             throw new Error(apiResponse.data.error || "Erro de autenticação");
         } else {
-
-            const user = apiResponse.data.userId;
-    
+            const user = apiResponse.data;
             if (!process.env.JWT_SECRET) {
                 throw new Error("JWT_SECRET is not defined");
             } else {
