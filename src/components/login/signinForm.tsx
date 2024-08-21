@@ -44,10 +44,11 @@ export default function Signin() {
 
     useEffect(() => {
         if (succses) {
+            setError("");
             const redirectTimer = setTimeout(() => {
                 setIsValid(true);
                 window.location.reload();
-            }, 2000);
+            }, 1000);
 
             return () => clearTimeout(redirectTimer);
         }

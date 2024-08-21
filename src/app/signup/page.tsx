@@ -42,9 +42,10 @@ export default function Signup() {
 
     useEffect(() => {
         if (succses) {
+            setError("");
             const redirectTimer = setTimeout(() => {
                 router.push("/");
-            }, 3000);
+            }, 1000);
 
             return () => clearTimeout(redirectTimer);
         }

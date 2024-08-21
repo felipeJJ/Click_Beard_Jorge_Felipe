@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Succses from "../alerts/Succses";
 import { useTokenContext } from "@/app/context/tokenContext";
+import { usePageContext } from "@/app/context/pageToShow";
 
 
 export default function NavBar() {
+    const { role } = useTokenContext();
+    const { setBarbers } = usePageContext();  
+
     const router = useRouter();
     const [succses, setSuccses] = useState("");
-    const { role } = useTokenContext();
 
     const handleLogout = async () => {
         try {
@@ -27,7 +30,7 @@ export default function NavBar() {
         if (succses) {
             const redirectTimer = setTimeout(() => {
                 window.location.reload();
-            }, 3000);
+            }, 1000);
 
             return () => clearTimeout(redirectTimer);
         }
@@ -59,7 +62,7 @@ export default function NavBar() {
                 >
                     {role === "admin" && (
                         <li>
-                            <a onClick={() => router.push("/barbeiros")}>
+                            <a onClick={()=> setBarbers(true)}>
                                 Barbeiros
                             </a>
                         </li>
