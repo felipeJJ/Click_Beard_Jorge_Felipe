@@ -2,10 +2,13 @@
 
 import PasswordIcon from "./PasswordIcon";
 import EmailIcon from "./EmailIcon";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import axios from "axios";
 
 export default function Signin() {
+    const router = useRouter();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -27,44 +30,58 @@ export default function Signin() {
     };
 
     return (
-        <main className="font-serif flex items-center justify-center h-full text-gray-700 overflow-hidden">
-            <form
-                onSubmit={handleSubmit}
-                className="bg-gray-100 py-20 p-12 rounded-lg w-96 max-w-full flex justify-center items-center flex-col gap-4 my-24"
-            >
-                <h2 className="font-bold text-3xl mb-3 ">Faça seu login</h2>
-                <div>
-                    <label className="input input-bordered flex items-center gap-2">
-                        <EmailIcon />
-                        <input
-                            type="text"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="grow"
-                            placeholder="Email"
-                        />
-                    </label>
+        <div className="font-serif flex items-center justify-center  text-gray-700 overflow-hidden">
+            <div className="bg-gray-200 py-20 p-12 rounded-2xl w-96 max-w-full my-24">
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col justify-center items-center gap-4"
+                >
+                    <h2 className="font-bold text-3xl mb-3 ">Faça seu login</h2>
+                    <div>
+                        <label className="input input-bordered flex items-center gap-2">
+                            <EmailIcon />
+                            <input
+                                type="text"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="grow"
+                                placeholder="Email"
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label className="input input-bordered min-w-max flex items-center gap-2">
+                            <PasswordIcon />
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="grow"
+                                placeholder="Senha"
+                            />
+                        </label>
+                    </div>
+                    <button
+                        type="submit"
+                        className="btn btn-neltral w-full text-lg mt-5 bg-gray-300"
+                    >
+                        {" "}
+                        Entrar{" "}
+                    </button>
+                </form>
+                <div className="w-full flex gap-2 mt-3">
+                    <div className="w-2/5 h-[1px] bg-[#DCE2E5] mt-6"></div>
+                    <p className="text-lg translate-y-2">ou</p>
+                    <div className="w-2/5 h-[1px] bg-[#DCE2E5] mt-6"></div>
                 </div>
-                <div>
-                    <label className="input input-bordered min-w-max flex items-center gap-2">
-                        <PasswordIcon />
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="grow"
-                            placeholder="Senha"
-                        />
-                    </label>
-                </div>
-                <button
-                    type="submit"
-                    className="btn btn-neltral w-full text-lg mt-5 bg-gray-300"
+                <button 
+                    className="btn btn-neltral w-full text-lg mt-7 bg-gray-300"
+                    onClick={() => router.push("/signup")}
                 >
                     {" "}
-                    Entrar{" "}
+                    Inscrever-se{" "}
                 </button>
-            </form>
-        </main>
+            </div>
+        </div>
     );
 }
