@@ -7,13 +7,13 @@ import Succses from "../alerts/Succses";
 import { useTokenContext } from "@/app/context/tokenContext";
 import { usePageContext } from "@/app/context/pageToShow";
 
-
 export default function NavBar() {
     const { role } = useTokenContext();
-    const { setBarbers } = usePageContext();  
+    const { setBarbers, setAdminScheduling, setScheduling } = usePageContext();
 
     const router = useRouter();
     const [succses, setSuccses] = useState("");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleLogout = async () => {
         try {
@@ -36,11 +36,30 @@ export default function NavBar() {
         }
     }, [succses]);
 
+    const handleBarbers = () => {
+        setBarbers(true);
+        setAdminScheduling(false);
+        setScheduling(false);
+        setIsDropdownOpen(false);
+    };
+
+    const hadleScheduling = () => {
+        setIsDropdownOpen(false);
+        setBarbers(false);
+
+        if (role === "admin") {
+            setAdminScheduling(true);
+        } setScheduling(true);
+    };
+
     return (
         <div className="navbar bg-base-100 shadow-md rounded-lg px-10 m-1 w-screen">
             <div className="dropdown dropdown-end">
                 <div className="flex-none">
-                    <button className="btn btn-square btn-ghost">
+                    <button
+                        className="btn btn-square btn-ghost"
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -56,32 +75,32 @@ export default function NavBar() {
                         </svg>
                     </button>
                 </div>
-                <ul
-                    tabIndex={0}
-                    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 gap-1 shadow transform translate-x-40"
-                >
-                    {role === "admin" && (
+                {isDropdownOpen && (
+                    <ul
+                        tabIndex={0}
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 gap-1 shadow transform translate-x-40"
+                    >
+                        {role === "admin" && (
+                            <li>
+                                <button onClick={handleBarbers}>
+                                    Barbeiros
+                                </button>
+                            </li>
+                        )}
                         <li>
-                            <a onClick={()=> setBarbers(true)}>
-                                Barbeiros
-                            </a>
+                            <a onClick={hadleScheduling}>Agendamentos</a>
                         </li>
-                    )}
-                    <li>
-                        <a onClick={() => router.push("/barbeiros")}>
-                            Agendamentos
-                        </a>
-                    </li>
-                    <li>
-                        <a onClick={handleLogout}>Logout</a>
-                    </li>
-                </ul>
+                        <li>
+                            <a onClick={handleLogout}>Logout</a>
+                        </li>
+                    </ul>
+                )}
             </div>
 
             <div className="flex-1">
                 <a
                     className="btn btn-ghost text-2xl"
-                    onClick={() => router.push("/")}
+                    onClick={hadleScheduling}
                 >
                     Barbados
                 </a>

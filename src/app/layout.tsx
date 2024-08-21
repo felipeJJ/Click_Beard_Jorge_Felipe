@@ -4,6 +4,7 @@ import "./globals.css";
 import { Saira, Saira_Stencil_One } from "next/font/google";
 import { TokenContextProvider, useTokenContext } from "./context/tokenContext";
 import NavBar from "@/components/header/NavBar";
+import { PageContextProvider } from "./context/pageToShow";
 
 const sairaStencil = Saira_Stencil_One({
     weight: ["400"],
@@ -26,7 +27,9 @@ export default function RootLayout({
         <html className={`${sairaStencil.variable} ${saira.variable}`}>
             <body>
                 <TokenContextProvider>
-                    <Content>{children}</Content>
+                    <PageContextProvider>
+                        <Content>{children}</Content>   
+                    </PageContextProvider>
                 </TokenContextProvider>
             </body>
         </html>
