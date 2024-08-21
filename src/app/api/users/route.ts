@@ -74,14 +74,14 @@ export async function GET(req: NextRequest) {
                 );
             } else {
                 return NextResponse.json(
-                    { error: "Senha incorreta." },
+                    { error: "Usuário e (ou) senha incorreto(s)." },
                     { status: 401 }
                 );
             }
         } else {
             return NextResponse.json(
-                { error: "Usuário não encontrado." },
-                { status: 404 }
+                { error: "Usuário e (ou) senha incorreto(s)." },
+                { status: 401 }
             );
         }
     } catch (error) {

@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
         if (apiResponse.status !== 200) {
             throw new Error(apiResponse.data.error || "Erro de autenticação");
-        } else {
+        } else  {
             const user = apiResponse.data;
             if (!process.env.JWT_SECRET) {
                 throw new Error("JWT_SECRET is not defined");
@@ -50,6 +50,13 @@ export async function POST(req: Request) {
         }
 
     } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+            return NextResponse.json(
+                { message: error.response.data.error || "Erro ao fazer Login" },
+                { status: error.response.status }
+            );
+        };
+
         return NextResponse.json(
             { message: "Erro ao fazer Login", error: (error as Error).message },
             { status: 500 }
