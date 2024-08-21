@@ -1,13 +1,16 @@
-'use client';
+"use client";
 
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Succses from "../alerts/Succses";
+import { useTokenContext } from "@/app/context/tokenContext";
 
-export default function UserNavBar() {
+
+export default function NavBar() {
     const router = useRouter();
     const [succses, setSuccses] = useState("");
+    const { role } = useTokenContext();
 
     const handleLogout = async () => {
         try {
@@ -54,21 +57,29 @@ export default function UserNavBar() {
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 gap-1 shadow transform translate-x-40"
                 >
+                    {role === "admin" && (
+                        <li>
+                            <a onClick={() => router.push("/barbeiros")}>
+                                Barbeiros
+                            </a>
+                        </li>
+                    )}
                     <li>
                         <a onClick={() => router.push("/barbeiros")}>
                             Agendamentos
                         </a>
                     </li>
                     <li>
-                        <a onClick={handleLogout}>
-                            Logout
-                        </a>
+                        <a onClick={handleLogout}>Logout</a>
                     </li>
                 </ul>
             </div>
 
             <div className="flex-1">
-                <a className="btn btn-ghost text-2xl" onClick={() => router.push("/")}>
+                <a
+                    className="btn btn-ghost text-2xl"
+                    onClick={() => router.push("/")}
+                >
                     Barbados
                 </a>
             </div>

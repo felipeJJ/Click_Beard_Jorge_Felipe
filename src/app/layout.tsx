@@ -1,11 +1,9 @@
 "use client";
 
-import { Saira, Saira_Stencil_One } from "next/font/google";
-import { parseCookies } from "nookies";
-import { useEffect, useState } from "react";
 import "./globals.css";
-import UserNavBar from "@/components/header/UserNavBar";
-import AdminNavBar from "@/components/header/AdminNavBar";
+import { Saira, Saira_Stencil_One } from "next/font/google";
+import { TokenContextProvider, useTokenContext } from "./context/tokenContext";
+import NavBar from "@/components/header/NavBar";
 
 const sairaStencil = Saira_Stencil_One({
     weight: ["400"],
@@ -24,50 +22,24 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [role, setRole] = useState<string | null>(null);
-
-    useEffect(() => {
-        const cookies = parseCookies();
-        const token = cookies.token;
-
-        if (token) {
-            fetch("/api/tokenVerify", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.isValid) {
-                        setIsLoggedIn(true);
-                        setRole(data.role);
-                    } else {
-                        setIsLoggedIn(false);
-                    }
-                })
-                .catch((err) => {
-                    console.error("Error verifying token:", err);
-                    setIsLoggedIn(false);
-                });
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, []);
-
     return (
         <html className={`${sairaStencil.variable} ${saira.variable}`}>
             <body>
-                {isLoggedIn && (
-                    <>
-                        {role === "admin" && <AdminNavBar />}
-                        {role === "client" && <UserNavBar />}
-                    </>
-                )}
-                {children}
+                <TokenContextProvider>
+                    <Content>{children}</Content>
+                </TokenContextProvider>
             </body>
         </html>
+    );
+}
+
+function Content({ children }: { children: React.ReactNode }) {
+    const { role, isValid } = useTokenContext();
+
+    return (
+        <>
+            {isValid && <NavBar />}
+            {children}
+        </>
     );
 }
