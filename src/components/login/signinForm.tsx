@@ -3,14 +3,18 @@
 import PasswordIcon from "./PasswordIcon";
 import EmailIcon from "./EmailIcon";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Alert from "../alerts/Alert";
+import Succses from "../alerts/Succses";
 
 export default function Signin() {
     const router = useRouter();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [succses, setSuccses] = useState("");
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -20,14 +24,41 @@ export default function Signin() {
                 password,
             });
             if (res.status === 200) {
+                console.log("entroi");
+                setSuccses("Login efetuado com sucesso!");
             }
         } catch (error: any) {
-            console.error("Falha no login", error.response.data.error);
+            if (error.response && error.response.status === 401) {
+                setError("Email ou senha inválidos");
+            } else {
+                console.error(
+                    "Falha no login",
+                    error.response?.data?.error || error.message
+                );
+                setError("Ocorreu um erro inesperado.");
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (succses) {
+            const redirectTimer = setTimeout(() => {
+                router.push("/");
+            }, 2000);
+
+            return () => clearTimeout(redirectTimer);
         }
 
-        setEmail("");
-        setPassword("");
-    };
+        if (error) {
+            const errorTimer = setTimeout(() => {
+                setError("");
+                setEmail("");
+                setPassword("");
+            }, 5000);
+
+            return () => clearTimeout(errorTimer);
+        }
+    }, [error, succses, router]);
 
     return (
         <div className="font-serif flex items-center justify-center  text-gray-700 overflow-hidden">
@@ -74,13 +105,15 @@ export default function Signin() {
                     <p className="text-lg translate-y-2">ou</p>
                     <div className="w-2/5 h-[1px] bg-[#DCE2E5] mt-6"></div>
                 </div>
-                <button 
+                <button
                     className="btn btn-neltral w-full text-lg mt-7 bg-gray-300"
                     onClick={() => router.push("/signup")}
                 >
                     {" "}
                     Inscrever-se{" "}
                 </button>
+                {error && <Alert errorMessage={error} />}
+                {succses && <Succses succsesMessage={succses} />}
             </div>
         </div>
     );
