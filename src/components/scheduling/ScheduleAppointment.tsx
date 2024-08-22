@@ -101,8 +101,10 @@ export default function ScheduleAppointment() {
             if (response.status === 200) {
                 setSuccses("Hora agendado com sucesso!");
             }
-        } catch (error) {
-            setError("Ocorreu um erro inesperado, por favor mais tarde.");
+        } catch (error: any) {
+            if (error.response && error.response.status === 402) {
+                setError(error.response.data.error);
+            } else setError("Ocorreu um erro inesperado, por favor mais tarde.");
         }
     };
 

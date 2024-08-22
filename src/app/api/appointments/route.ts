@@ -37,6 +37,20 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        const currentDateTime = new Date();
+        const appointmentDateTime = new Date(
+            `${appointment_date}T${appointment_time}`
+        );
+
+        if (appointmentDateTime < currentDateTime) {
+            return NextResponse.json(
+                {
+                    error: "Não é possível agendar para uma data e hora passada.",
+                },
+                { status: 402 }
+            );
+        }
+
         const existingAppointment = await query(
             `
             SELECT appointment_id
