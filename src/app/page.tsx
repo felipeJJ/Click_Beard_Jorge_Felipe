@@ -6,18 +6,28 @@ import { usePageContext } from "./context/pageToShow";
 import { useTokenContext } from "./context/tokenContext";
 import BarbersForm from "@/components/barbersCreation/BarbersForm";
 import CustomerScheduling from "@/components/scheduling/ScheduleAppointment";
+import Schedule from "@/components/adminScheduling/Schedule";
 
 export default function Home() {
-    const { isValid } = useTokenContext();
-    const { barbers, scheduling, setScheduling } = usePageContext();
+    const { isValid, role } = useTokenContext();
+    const {
+        barbers,
+        scheduling,
+        adminScheduling,
+        setScheduling,
+        setAdminScheduling,
+    } = usePageContext();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (isValid && !scheduling && !barbers) {
-            setScheduling(true);
+        if (isValid && role === "admin" && !barbers) {
+            setAdminScheduling(true);
+        } else {
+            if (isValid && !scheduling && !barbers) {
+                setScheduling(true);
+            }
         }
-        
-    },[barbers, isValid, scheduling, setScheduling])
+    }, [barbers, isValid, role, scheduling, setAdminScheduling, setScheduling]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -38,6 +48,7 @@ export default function Home() {
     return (
         <main className="h-screen w-screen">
             {scheduling && <CustomerScheduling />}
+            {adminScheduling && <Schedule />}
             {!isValid && <SigninForm />}
             {barbers && <BarbersForm />}
         </main>

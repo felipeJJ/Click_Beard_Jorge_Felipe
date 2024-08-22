@@ -48,8 +48,9 @@ export default function NavBar() {
         setBarbers(false);
 
         if (role === "admin") {
+            setScheduling(false);
             setAdminScheduling(true);
-        } setScheduling(true);
+        } else setScheduling(true);
     };
 
     return (
