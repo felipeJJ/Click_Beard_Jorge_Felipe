@@ -23,6 +23,18 @@ export async function GET(req: NextRequest) {
 
         const client_id = payload.userId;
 
+        await query(
+            `
+            UPDATE appointments 
+            SET status = 'concluído' 
+            WHERE client_id = $1 
+            AND status = 'agendado' 
+            AND appointment_date < CURRENT_DATE 
+            OR (appointment_date = CURRENT_DATE AND appointment_time < CURRENT_TIME)
+            `,
+            [client_id]
+        );
+
         const appointments = await query(
             `
             SELECT 
