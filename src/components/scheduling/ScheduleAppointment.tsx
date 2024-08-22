@@ -5,6 +5,7 @@ import Scissors from "./Scissors";
 import UserIcon from "../signup/UserIcon";
 import Alert from "../alerts/Alert";
 import Succses from "../alerts/Succses";
+import ClientAppointments from "./ClientAppointments";
 
 interface Specialty {
     specialty_id: string;
@@ -130,10 +131,10 @@ export default function ScheduleAppointment() {
     }, [error, succses]);
 
     return (
-        <main className="font-serif flex items-center justify-center h-full text-gray-500 ">
+        <main className="font-serif flex justify-between h-full text-gray-500 px-96 py-20">
             <form
                 onSubmit={handleSubmit}
-                className="flex flex-col justify-center items-center gap-4 w-72"
+                className="flex flex-col gap-4 w-72"
             >
                 <h2 className="font-bold text-3xl mb-3">Agende um horário</h2>
                 <div className="w-full">
@@ -242,6 +243,7 @@ export default function ScheduleAppointment() {
                     Confirmar
                 </button>
             </form>
+            <ClientAppointments/>
         </main>
     );
 }
