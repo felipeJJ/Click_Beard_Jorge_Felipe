@@ -38,17 +38,20 @@ export default function ClientAppointments() {
 
     const handleCancelAppointment = async (appointmentId: string) => {
         try {
-            await axios.delete(`/api/appointments/${appointmentId}`);
+            await axios.put(`/api/appointments/${appointmentId}`, {
+                status: 'cancelado',
+            });
             setAppointments((prevAppointments) =>
-                prevAppointments.filter(
-                    (appointment) =>
-                        appointment.appointment_id !== appointmentId
+                prevAppointments.map((appointment) =>
+                    appointment.appointment_id === appointmentId
+                        ? { ...appointment, status: 'cancelado' }
+                        : appointment
                 )
             );
         } catch (error) {
             console.error("Erro ao cancelar agendamento:", error);
         }
-    };
+    };    
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
