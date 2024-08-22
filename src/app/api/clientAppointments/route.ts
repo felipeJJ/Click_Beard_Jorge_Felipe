@@ -23,18 +23,6 @@ export async function GET(req: NextRequest) {
 
         const client_id = payload.userId;
 
-        await query(
-            `
-            UPDATE appointments 
-            SET status = 'concluído' 
-            WHERE client_id = $1 
-            AND status = 'agendado' 
-            AND appointment_date < CURRENT_DATE 
-            OR (appointment_date = CURRENT_DATE AND appointment_time < CURRENT_TIME)
-            `,
-            [client_id]
-        );
-
         const appointments = await query(
             `
             SELECT 
@@ -47,7 +35,7 @@ export async function GET(req: NextRequest) {
             FROM appointments a
             JOIN barbers b ON a.barber_id = b.barber_id
             JOIN specialties s ON a.specialty_id = s.specialty_id
-            WHERE a.client_id = $1
+            WHERE a.client_id = $1 AND a.status != 'cancelado'
             ORDER BY a.appointment_date DESC, a.appointment_time ASC
             `,
             [client_id]
