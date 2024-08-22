@@ -112,11 +112,7 @@ export default function ScheduleAppointment() {
         if (succses) {
             setError("");
             const redirectTimer = setTimeout(() => {
-                setSuccses("");
-                setAppointmentDate("");
-                setSelectedSpecialty("");
-                setSelectedBarber("");
-                setSelectedTime("");
+                window.location.reload();
             }, 3000);
 
             return () => clearTimeout(redirectTimer);
