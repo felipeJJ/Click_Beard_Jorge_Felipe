@@ -5,11 +5,16 @@ import SigninForm from "@/components/login/SigninForm";
 import { usePageContext } from "./context/pageToShow";
 import { useTokenContext } from "./context/tokenContext";
 import BarbersForm from "@/components/barbersCreation/BarbersForm";
+import CustomerScheduling from "@/components/scheduling/ScheduleAppointment";
 
 export default function Home() {
     const { isValid } = useTokenContext();
-    const { barbers } = usePageContext();
+    const { barbers, scheduling, setScheduling } = usePageContext();
     const [loading, setLoading] = useState(true);
+
+    if (isValid && !scheduling && !barbers) {
+        setScheduling(true);
+    }
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -29,6 +34,7 @@ export default function Home() {
 
     return (
         <main className="h-screen w-screen">
+            {scheduling && <CustomerScheduling />}
             {!isValid && <SigninForm />}
             {barbers && <BarbersForm />}
         </main>
