@@ -3,6 +3,14 @@ import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 
+interface UserApiResponse {
+    message: string;
+    userId: string;
+    email: string;
+    role: string;
+    error: string;
+}
+
 export async function POST(req: Request) {
     const api = axios.create({
         baseURL:
@@ -13,7 +21,7 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { email, password } = body;
 
-        const apiResponse = await api.get("/api/users", {
+        const apiResponse = await api.get<UserApiResponse>("/api/users", {
             params: {
                 email,
                 password,
@@ -28,7 +36,7 @@ export async function POST(req: Request) {
                 throw new Error("JWT_SECRET is not defined");
             } else {
                 const token = jwt.sign(
-                    { id: user.id, email: user.email, role: user.role },
+                    { userId: user.userId, email: user.email, role: user.role },
                     process.env.JWT_SECRET,
                     {
                         expiresIn: "1h",
