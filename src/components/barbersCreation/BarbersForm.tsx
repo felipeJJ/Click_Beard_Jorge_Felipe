@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import axios from "axios";
+import { usePageContext } from "@/app/context/pageToShow";
+import SpecialtySelect from "./SpecialtySelect";
 import UserIcon from "../signup/UserIcon";
 import CalendarIcon from "./CalendarIcon";
+import Succses from "../alerts/Succses";
 import Alert from "../alerts/Alert";
 import AgeIcon from "./AgeIcon";
-import SpecialtySelect from "./SpecialtySelect";
 
 export default function BarbersForm() {
+    const { setScheduling, setBarbers } = usePageContext();
+
     const [age, setAge] = useState("");
     const [name, setName] = useState("");
     const [hiredAt, setHiredAt] = useState("");
@@ -16,7 +20,6 @@ export default function BarbersForm() {
     const [succses, setSuccses] = useState("");
     const [error, setError] = useState("");
 
-    const router = useRouter();
 
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value.replace(/\D/g, "");
@@ -66,38 +69,47 @@ export default function BarbersForm() {
 
         setError("");
 
-        console.log({
-            name,
-            age,
-            hiredAt,
-            specialties: selectedSpecialties,
-        });
-
-        setSuccses("Formulário enviado com sucesso!");
+        try {
+            const res = await axios.post("/api/barbers", {
+                name,
+                age,
+                hiredAt,
+                selectedSpecialties,
+            });
+            if (res.status === 200) {
+                setSuccses("Barbeiro cadastrado com sucesso!");
+            }
+        } catch (error) {
+            setError("Ocorreu um erro inesperado, por favor mais tarde.");
+        }
+        
     };
 
     useEffect(() => {
         if (succses) {
             setError("");
             const redirectTimer = setTimeout(() => {
-                router.push("/");
+                setSuccses("");
+                setScheduling(true);
+                setBarbers(false);
             }, 1000);
-
+    
             return () => clearTimeout(redirectTimer);
         }
-
+    
         if (error) {
+            setSuccses("");
             const errorTimer = setTimeout(() => {
                 setError("");
-                setSuccses("");
-            }, 3000);
-
+            }, 5000);
+    
             return () => clearTimeout(errorTimer);
         }
-    }, [error, succses, router]);
+    }, [error, setBarbers, setScheduling, succses]);
+    
 
     return (
-        <main className="font-serif flex items-center justify-center h-full text-gray-500 overflow-hidden">
+        <main className="font-serif flex items-center justify-center h-full text-gray-500 ">
             <form
                 onSubmit={handleSubmit}
                 className="flex flex-col justify-center items-center gap-4 w-80"
@@ -153,6 +165,13 @@ export default function BarbersForm() {
                     <div className="w-full relative mb-8">
                         <div className="absolute w-full -translate-y-11 m">
                             <Alert errorMessage={error} />
+                        </div>
+                    </div>
+                )}
+                {succses && (
+                    <div className="w-full relative mb-8">
+                        <div className="absolute w-full -translate-y-11 m">
+                            <Succses succsesMessage={succses} />
                         </div>
                     </div>
                 )}
