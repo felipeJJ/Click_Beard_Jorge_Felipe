@@ -12,9 +12,12 @@ export default function Home() {
     const { barbers, scheduling, setScheduling } = usePageContext();
     const [loading, setLoading] = useState(true);
 
-    if (isValid && !scheduling && !barbers) {
-        setScheduling(true);
-    }
+    useEffect(() => {
+        if (isValid && !scheduling && !barbers) {
+            setScheduling(true);
+        }
+        
+    },[barbers, isValid, scheduling, setScheduling])
 
     useEffect(() => {
         const timer = setTimeout(() => {
