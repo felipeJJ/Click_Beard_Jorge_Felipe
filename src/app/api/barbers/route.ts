@@ -5,11 +5,14 @@ export async function POST(req: NextRequest) {
     try {
         const { name, age, hiredAt, selectedSpecialties } = await req.json();
 
+        const [day, month, year] = hiredAt.split("/");
+        const formattedHiredAt = `${month}/${day}/${year}`;
+
         await query("BEGIN");
 
         const result = await query(
             "INSERT INTO barbers (name, age, hired_date, created_at) VALUES ($1, $2, $3, NOW()) RETURNING barber_id",
-            [name, age, hiredAt]
+            [name, age, formattedHiredAt]
         );
 
         const barberId = result.rows[0].barber_id;
