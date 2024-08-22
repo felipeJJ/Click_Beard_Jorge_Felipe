@@ -26,7 +26,6 @@ export default function Signin() {
                 password,
             });
             if (res.status === 200) {
-                console.log("entroi");
                 setSuccses("Login efetuado com sucesso!");
             }
         } catch (error: any) {
