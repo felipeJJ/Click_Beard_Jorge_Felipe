@@ -13,6 +13,18 @@ export async function POST(req: NextRequest) {
             );
         }
 
+        const emailCheck = await query(
+            "SELECT user_id FROM users WHERE email = $1",
+            [email]
+        );
+
+        if (emailCheck?.rowCount && emailCheck.rowCount > 0) {
+            return NextResponse.json(
+                { error: "Email já está em uso." },
+                { status: 401 }
+            );
+        }
+
         const passwordHash = bcrypt.hashSync(password, 8);
 
         const result = await query(
@@ -60,7 +72,10 @@ export async function GET(req: NextRequest) {
 
         if (result?.rowCount && result.rowCount > 0) {
             const user = result.rows[0];
-            const isPasswordValid = bcrypt.compareSync(password, user.password_hash);
+            const isPasswordValid = bcrypt.compareSync(
+                password,
+                user.password_hash
+            );
 
             if (isPasswordValid) {
                 return NextResponse.json(

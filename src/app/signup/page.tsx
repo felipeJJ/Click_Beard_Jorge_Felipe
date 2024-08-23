@@ -32,10 +32,11 @@ export default function Signup() {
                 });
                 if (response.status === 200) {
                     setSuccses("Usário criado com sucesso!");
-
                 }
             } catch (error: any) {
-                setError("Erro ao criar o usuário, tente mais tarde!");
+                if (error.response && error.response.status === 401) {
+                    setError("Email já está em uso");
+                } else setError("Erro ao criar o usuário, tente mais tarde!");
             }
         }
     };
