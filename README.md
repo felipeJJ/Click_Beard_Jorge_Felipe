@@ -1,4 +1,4 @@
-# Sistema de agendamentos de barbearias
+# Sistema de agendamentos para barbearias
 Este projeto consiste em um sistema que subre a dor de barbearias ao realizar agendamentos sem precisar de um atendente.
 
 <div align="center">
