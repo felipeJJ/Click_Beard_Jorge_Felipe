@@ -52,7 +52,8 @@ $ npm install
 ### Configurando o banco de dados
 
 Configure um servidor PostgreSQL para rodar o banco de dados. Caso queira manter a variável de ambiente DATABASE_URL, crie um banco com o nome "barbershop" e defina a senha como "123456". <br/>
-Se preferir outra configuração, basta alterar a variável de ambiente DATABASE_URL de acordo com suas preferências.
+Se preferir outra configuração, basta alterar a variável de ambiente DATABASE_URL de acordo com suas preferências.<br/>
+Obs: use login: "admin@admin.com" e senha: "admin" para ter acesso ao usuário admin.
 
 **Populando o banco de dados**
 
