@@ -1,5 +1,5 @@
 # Sistema de agendamentos para barbearias
-Este projeto consiste em um sistema que subre a dor de barbearias ao realizar agendamentos sem precisar de um atendente.
+Este projeto consiste em um sistema que resolve a dor de barbearias ao realizar agendamentos sem precisar de um atendente.
 
 <div align="center">
   <img width="300" alt="Captura de Tela 2024-08-22 às 23 33 42" src="https://github.com/user-attachments/assets/5fefc0e1-7d8f-4c49-8790-14e62ec9671e">
@@ -11,21 +11,21 @@ Este projeto consiste em um sistema que subre a dor de barbearias ao realizar ag
 ## Funcionalidades
 
 ### Usuário - cliente
-- Realizar o cadastro e efetuar entrada de forma segura no sistema
-- Agendar horário com o barbeiro desajado e escolher o serviço
+- Realizar o cadastro e efetuar login de forma segura no sistema
+- Agendar horário com o barbeiro desejado e escolher o serviço
 - Visualizar todos seu agendamentos
-- Cancelar agendamentos que faltem ao menos 2 horas para o horário
+- Cancelar agendamentos com pelo menos 2 horas de antecedência
 - Fazer *log-off*
 
 ### Usuário - admin
-- Efetuar entrada segura no sistema com um usuário privilegiado
+- Efetuar login seguro no sistema com um usuário privilegiado
 - Visualizar todos os agendamentos de cada barbeiro em um período de até 15 dias
 - Cadastrar novos barbeiros e suas respectivas especialidades
 - Fazer *log-off*
 
 ## Como Usar
 - Pré-requisitos: <br/>
-Para executar este projeto, é necessário ter um ambiente basico que rode uma aplicação Next JS e ter o *PostgreSQL* instalado. <br/>
+Para executar este projeto, é necessário ter um ambiente básico que rode uma aplicação Next.js e ter o PostgreSQL instalado. <br/>
 As variáveis de ambiente já estão carregadas no arquivo .env que se encontra neste repositório (já que este projeto não possui fins comerciais).
 
 **Clonando repositório**
@@ -50,8 +50,8 @@ $ npm install
 
 ### Configurando o banco de dados
 
-Configure um servidor *PostgreSQL* para rodar o bando de dados, caso queria manter a variável de ambiente "DATABASE_URL", crie um banco com o nome "barbershop" e ponha a senha "123456". <br/>
-Caso não queria manter essa configuração, basta alterar a variável de ambiente "DATABASE_URL" de acordo com a sua configuração.
+Configure um servidor PostgreSQL para rodar o banco de dados. Caso queira manter a variável de ambiente DATABASE_URL, crie um banco com o nome "barbershop" e defina a senha como "123456". <br/>
+Se preferir outra configuração, basta alterar a variável de ambiente DATABASE_URL de acordo com suas preferências.
 
 **Populando o banco de dados**
 
