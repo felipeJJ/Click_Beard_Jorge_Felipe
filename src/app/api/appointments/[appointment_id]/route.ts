@@ -34,6 +34,38 @@ export async function PUT(
             );
         }
 
+        const appointmentResult = await query(
+            "SELECT appointment_time FROM appointments WHERE appointment_id = $1 AND client_id = $2",
+            [appointment_id, payload.userId]
+        );
+
+        if (appointmentResult.rowCount === 0) {
+            return NextResponse.json(
+                {
+                    error: "Agendamento não encontrado ou você não tem permissão para cancelá-lo.",
+                },
+                { status: 404 }
+            );
+        }
+
+        const appointmentTime = new Date(
+            appointmentResult.rows[0].appointment_time
+        );
+        const currentTime = new Date();
+
+        const timeDifference =
+            (appointmentTime.getTime() - currentTime.getTime()) /
+            (1000 * 60 * 60);
+
+        if (timeDifference < 2) {
+            return NextResponse.json(
+                {
+                    error: "O agendamento só pode ser cancelado com pelo menos 2 horas de antecedência.",
+                },
+                { status: 400 }
+            );
+        }
+
         const result = await query(
             `
             UPDATE appointments 
