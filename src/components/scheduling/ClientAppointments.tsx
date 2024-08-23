@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useTokenContext } from "@/app/context/tokenContext";
+import Succses from "../alerts/Succses";
 
 interface Appointment {
     appointment_id: string;
@@ -14,6 +15,8 @@ interface Appointment {
 export default function ClientAppointments() {
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [succses, setSuccses] = useState("");
+
     const { isValid } = useTokenContext();
 
     useEffect(() => {
@@ -34,24 +37,35 @@ export default function ClientAppointments() {
         if (isValid) {
             fetchAppointments();
         }
-    }, [isValid]);
+
+        if (succses) {
+            const redirectTimer = setTimeout(() => {
+                setSuccses("");
+            }, 70000);
+
+            return () => clearTimeout(redirectTimer);
+        }
+    }, [isValid, succses]);
 
     const handleCancelAppointment = async (appointmentId: string) => {
         try {
-            await axios.put(`/api/appointments/${appointmentId}`, {
-                status: 'cancelado',
+            const res = await axios.put(`/api/appointments/${appointmentId}`, {
+                status: "cancelado",
             });
+            if (res.status === 200) {
+                setSuccses("Agendamento cancelado com sucesso!");
+            }
             setAppointments((prevAppointments) =>
                 prevAppointments.map((appointment) =>
                     appointment.appointment_id === appointmentId
-                        ? { ...appointment, status: 'cancelado' }
+                        ? { ...appointment, status: "cancelado" }
                         : appointment
                 )
             );
         } catch (error) {
             console.error("Erro ao cancelar agendamento:", error);
         }
-    };    
+    };
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -115,6 +129,13 @@ export default function ClientAppointments() {
                         </li>
                     ))}
                 </ul>
+            )}
+            {succses && (
+                <div className="w-full relative">
+                    <div className="absolute w-full -translate-y-5">
+                        <Succses succsesMessage={succses} />
+                    </div>
+                </div>
             )}
         </div>
     );
