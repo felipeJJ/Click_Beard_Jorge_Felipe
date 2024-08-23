@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
         const bookedTimes = result.rows.map((row) => row.appointment_time);
 
         const times = [];
-        for (let hour = 8; hour <= 18; hour++) {
+        for (let hour = 8; hour <= 17; hour++) {
             for (let minute = 0; minute < 60; minute += 30) {
                 const time = `${String(hour).padStart(2, "0")}:${String(
                     minute
