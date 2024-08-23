@@ -99,7 +99,7 @@ export default function ScheduleAppointment() {
                 appointment_time: selectedTime,
             });
             if (response.status === 200) {
-                setSuccses("Hora agendado com sucesso!");
+                setSuccses("Horário agendado com sucesso!");
             }
         } catch (error: any) {
             if (error.response && error.response.status === 402) {
