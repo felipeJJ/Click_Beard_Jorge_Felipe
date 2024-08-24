@@ -114,7 +114,9 @@ CREATE TABLE appointments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
-Obs: popule a tabela de especialidades, aqui está um exemplo:
+Obs: popule a tabela de especialidades e usuários, aqui está um exemplo:
+
+Tabela de especialidades:
 ```
 INSERT INTO specialties (specialty_id, name, description, created_at) VALUES
 (gen_random_uuid(), 'Corte Clássico', 'Corte tradicional de cabelo, com estilos como o corte em degradê, undercut, ou side part.', CURRENT_TIMESTAMP),
@@ -127,6 +129,12 @@ INSERT INTO specialties (specialty_id, name, description, created_at) VALUES
 (gen_random_uuid(), 'Alisamento', 'Processo de alisamento capilar para cabelos masculinos, utilizando produtos específicos.', CURRENT_TIMESTAMP),
 (gen_random_uuid(), 'Corte Infantil', 'Corte de cabelo para crianças, com técnicas e cuidados especiais para o público infantil.', CURRENT_TIMESTAMP),
 (gen_random_uuid(), 'Relaxamento de Barba', 'Relaxamento dos fios da barba para reduzir o volume e facilitar o alinhamento.', CURRENT_TIMESTAMP);
+```
+
+Tabela de usuários com o usuário admin 
+```
+INSERT INTO users (name, email, password_hash, role)
+VALUES ('John Doe', 'john.doe@example.com', '$2a$08$6l7dBXs/JIiXrDInCcvWDOwNt767iZ41lb2v.pxAgfrFbEZyFPGZq', 'admin');
 ```
 
 **Diagrama entidade-relacionamento:**
