@@ -1,9 +1,13 @@
-import { Pool } from "pg";
+const { Client } = require('pg');
 
-const pool = new Pool({
+const client = new Client({
     connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,  // Use isso se o certificado SSL não for confiável, caso contrário, omita esta opção
+    },
 });
 
-export const query = (text: string, params?: any[]) => {
-    return pool.query(text, params);
-};
+client.connect()
+    .then(() => console.log('Connected successfully'))
+    .catch((err: { stack: any; }) => console.error('Connection error', err.stack))
+    .finally(() => client.end());
