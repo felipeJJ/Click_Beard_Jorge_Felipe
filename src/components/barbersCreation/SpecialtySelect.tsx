@@ -29,10 +29,12 @@ export default function SpecialtySelect({
         setSelectedSpecialties(selectedOptions);
     };
 
-    const options = specialties.map((spec) => ({
-        value: spec.specialty_id,
-        label: spec.name,
-    }));
+    const options = Array.isArray(specialties)
+        ? specialties.map((spec) => ({
+              value: spec.specialty_id,
+              label: spec.name,
+          }))
+        : [];
 
     const customStyles = {
         control: (provided: any, state: any) => ({
