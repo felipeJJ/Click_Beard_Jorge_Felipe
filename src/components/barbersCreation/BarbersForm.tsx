@@ -90,8 +90,10 @@ export default function BarbersForm() {
             setError("");
             const redirectTimer = setTimeout(() => {
                 setSuccses("");
-                setScheduling(true);
-                setBarbers(false);
+                setName("");
+                setAge("");
+                setHiredAt("");
+                setSelectedSpecialties([]);
             }, 1000);
     
             return () => clearTimeout(redirectTimer);
@@ -109,10 +111,10 @@ export default function BarbersForm() {
     
 
     return (
-        <main className="font-serif flex items-center justify-center h-full text-gray-500 ">
+        <main className="font-serif flex items-center justify-center h-full  text-gray-500 ">
             <form
                 onSubmit={handleSubmit}
-                className="flex flex-col justify-center items-center gap-4 w-80"
+                className="flex flex-col justify-center items-center gap-4 mb-20 w-80"
             >
                 <h2 className="font-bold text-3xl mb-3">Cadastrar Barbeiro</h2>
                 <div className="w-full">
