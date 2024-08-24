@@ -114,6 +114,21 @@ CREATE TABLE appointments (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
+Obs: popule a tabela de especialidades, aqui está um exemplo:
+```
+INSERT INTO specialties (specialty_id, name, description, created_at) VALUES
+(gen_random_uuid(), 'Corte Clássico', 'Corte tradicional de cabelo, com estilos como o corte em degradê, undercut, ou side part.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Barba Completa', 'Aparar, desenhar e modelar a barba, incluindo hidratação e aplicação de produtos específicos.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Sombrancelha Masculina', 'Ajuste e modelagem das sobrancelhas, deixando um aspecto limpo e natural.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Corte Moderno', 'Cortes mais ousados e estilosos, como moicano, fade alto, ou texturizados.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Barba Navalhada', 'Aparar a barba com navalha, proporcionando um acabamento mais rente e preciso.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Pigmentação de Barba', 'Aplicação de pigmento para uniformizar a cor da barba ou cobrir fios brancos.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Tratamento Capilar', 'Tratamentos para queda de cabelo, hidratação, e controle de oleosidade.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Alisamento', 'Processo de alisamento capilar para cabelos masculinos, utilizando produtos específicos.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Corte Infantil', 'Corte de cabelo para crianças, com técnicas e cuidados especiais para o público infantil.', CURRENT_TIMESTAMP),
+(gen_random_uuid(), 'Relaxamento de Barba', 'Relaxamento dos fios da barba para reduzir o volume e facilitar o alinhamento.', CURRENT_TIMESTAMP);
+```
+
 **Diagrama entidade-relacionamento:**
 ```
 +----------------+          +-----------------+           +---------------------+
