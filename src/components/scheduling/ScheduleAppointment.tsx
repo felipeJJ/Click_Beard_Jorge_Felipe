@@ -104,7 +104,11 @@ export default function ScheduleAppointment() {
         } catch (error: any) {
             if (error.response && error.response.status === 402) {
                 setError(error.response.data.error);
-            } else setError("Ocorreu um erro inesperado, por favor mais tarde.");
+            } else if (error.response && error.response.status === 409) {
+                setError(error.response.data.error);
+            } else {
+                setError("Ocorreu um erro inesperado, por favor mais tarde.");
+            }
         }
     };
 
@@ -117,23 +121,20 @@ export default function ScheduleAppointment() {
 
             return () => clearTimeout(redirectTimer);
         }
-    
+
         if (error) {
             setSuccses("");
             const errorTimer = setTimeout(() => {
                 setError("");
             }, 5000);
-    
+
             return () => clearTimeout(errorTimer);
         }
     }, [error, succses]);
 
     return (
         <main className="font-serif flex justify-between h-full text-gray-500 px-96 py-20">
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-4 w-72"
-            >
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-72">
                 <h2 className="font-bold text-3xl mb-3">Agende um horário</h2>
                 <div className="w-full">
                     <label className="input input-bordered w-full flex items-center gap-2">
@@ -241,7 +242,7 @@ export default function ScheduleAppointment() {
                     Confirmar
                 </button>
             </form>
-            <ClientAppointments/>
+            <ClientAppointments />
         </main>
     );
 }
